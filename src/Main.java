@@ -1,7 +1,10 @@
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        List<String> todos = new ArrayList<>();
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
                 System.out.println("\n=== Todo CLI ===");
@@ -23,6 +26,19 @@ public class Main {
                         System.out.println("프로그램을 종료합니다.");
                         return;
                     case "1":
+                        System.out.print("할 일을 입력하세요: ");
+                        if (!scanner.hasNextLine()) {
+                            System.out.println("\n프로그램을 종료합니다.");
+                            return;
+                        }
+                        String todo = scanner.nextLine().trim();
+                        if (todo.isEmpty()) {
+                            System.out.println("할 일 내용을 입력해주세요.");
+                            break;
+                        }
+                        todos.add(todo);
+                        System.out.println("할 일이 추가되었습니다.");
+                        break;
                     case "2":
                     case "3":
                     case "4":
