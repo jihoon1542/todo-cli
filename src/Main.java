@@ -40,6 +40,14 @@ public class Main {
                         System.out.println("할 일이 추가되었습니다.");
                         break;
                     case "2":
+                        if (todos.isEmpty()) {
+                            System.out.println("등록된 할 일이 없습니다.");
+                        } else {
+                            for (int i = 0; i < todos.size(); i++) {
+                                System.out.println((i + 1) + ". " + todos.get(i));
+                            }
+                        }
+                        break;
                     case "3":
                     case "4":
                         System.out.println("아직 구현되지 않은 기능입니다.");
