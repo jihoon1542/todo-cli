@@ -72,7 +72,28 @@ public class Main {
                         System.out.println("할 일이 완료되었습니다.");
                         break;
                     case "4":
-                        System.out.println("아직 구현되지 않은 기능입니다.");
+                        printTodos(todos);
+                        if (todos.isEmpty()) {
+                            break;
+                        }
+                        System.out.print("삭제할 할 일 번호를 입력하세요: ");
+                        if (!scanner.hasNextLine()) {
+                            System.out.println("\n프로그램을 종료합니다.");
+                            return;
+                        }
+                        int deleteNumber;
+                        try {
+                            deleteNumber = Integer.parseInt(scanner.nextLine().trim());
+                        } catch (NumberFormatException e) {
+                            System.out.println("올바른 숫자 번호를 입력해주세요.");
+                            break;
+                        }
+                        if (deleteNumber < 1 || deleteNumber > todos.size()) {
+                            System.out.println("1부터 " + todos.size() + "까지의 번호를 입력해주세요.");
+                            break;
+                        }
+                        todos.remove(deleteNumber - 1);
+                        System.out.println("할 일이 삭제되었습니다.");
                         break;
                     default:
                         System.out.println("0부터 4까지의 메뉴 번호를 입력해주세요.");
