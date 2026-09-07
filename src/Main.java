@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        List<String> todos = new ArrayList<>();
+        List<Todo> todos = new ArrayList<>();
         try (Scanner scanner = new Scanner(System.in)) {
             while (true) {
                 System.out.println("\n=== Todo CLI ===");
@@ -36,19 +36,41 @@ public class Main {
                             System.out.println("할 일 내용을 입력해주세요.");
                             break;
                         }
-                        todos.add(todo);
+                        todos.add(new Todo(todo));
                         System.out.println("할 일이 추가되었습니다.");
                         break;
                     case "2":
-                        if (todos.isEmpty()) {
-                            System.out.println("등록된 할 일이 없습니다.");
-                        } else {
-                            for (int i = 0; i < todos.size(); i++) {
-                                System.out.println((i + 1) + ". " + todos.get(i));
-                            }
-                        }
+                        printTodos(todos);
                         break;
                     case "3":
+                        printTodos(todos);
+                        if (todos.isEmpty()) {
+                            break;
+                        }
+                        System.out.print("완료할 할 일 번호를 입력하세요: ");
+                        if (!scanner.hasNextLine()) {
+                            System.out.println("\n프로그램을 종료합니다.");
+                            return;
+                        }
+                        int number;
+                        try {
+                            number = Integer.parseInt(scanner.nextLine().trim());
+                        } catch (NumberFormatException e) {
+                            System.out.println("올바른 숫자 번호를 입력해주세요.");
+                            break;
+                        }
+                        if (number < 1 || number > todos.size()) {
+                            System.out.println("1부터 " + todos.size() + "까지의 번호를 입력해주세요.");
+                            break;
+                        }
+                        Todo selectedTodo = todos.get(number - 1);
+                        if (selectedTodo.completed) {
+                            System.out.println("이미 완료된 할 일입니다.");
+                            break;
+                        }
+                        selectedTodo.completed = true;
+                        System.out.println("할 일이 완료되었습니다.");
+                        break;
                     case "4":
                         System.out.println("아직 구현되지 않은 기능입니다.");
                         break;
@@ -56,6 +78,27 @@ public class Main {
                         System.out.println("0부터 4까지의 메뉴 번호를 입력해주세요.");
                 }
             }
+        }
+    }
+
+    private static void printTodos(List<Todo> todos) {
+        if (todos.isEmpty()) {
+            System.out.println("등록된 할 일이 없습니다.");
+            return;
+        }
+        for (int i = 0; i < todos.size(); i++) {
+            Todo todo = todos.get(i);
+            String status = todo.completed ? "[o]" : "[ ]";
+            System.out.println((i + 1) + ". " + status + " " + todo.title);
+        }
+    }
+
+    private static class Todo {
+        private final String title;
+        private boolean completed;
+
+        private Todo(String title) {
+            this.title = title;
         }
     }
 }
